@@ -96,29 +96,43 @@ function findShortestPath() {
         const distance = travelTime * 30;
         details.totalDistance += distance;
         details.totalTime += travelTime;
-        details.nodeDetails.push({ from: prevNode, to: node, travelTime, distance });
+        const firstClassCost = travelTime * 15;
+        const standardFareCost = travelTime * 6;
+        const steerageCost = travelTime * 0.9;
+        const cargoCost = travelTime * 1.5;
+        details.nodeDetails.push({ from: prevNode, to: node, travelTime, distance, firstClassCost, standardFareCost, steerageCost, cargoCost });
         return details;
     }, { totalDistance: 0, totalTime: 0, nodeDetails: [] });
 
-    const firstClassCost = pathDetails.totalTime * 15;
-    const standardFareCost = pathDetails.totalTime * 6;
-    const steerageCost = pathDetails.totalTime * 0.6;
+    const totalFirstClassCost = pathDetails.totalTime * 15;
+    const totalStandardFareCost = pathDetails.totalTime * 6;
+    const totalSteerageCost = pathDetails.totalTime * 0.9;
+    const totalCargoCost = pathDetails.totalTime * 1.5;
 
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `
-        <p>Shortest path: ${result.path.join(' -> ')}</p>
+        <h2>Route</h2>
+        <p>${result.path.join(' -> ')}</p>
         <p>Total time: ${pathDetails.totalTime} hours</p>
         <p>Total distance: ${pathDetails.totalDistance} miles</p>
         <p>Costs:</p>
         <ul>
-            <li>First Class: ${firstClassCost.toFixed(2)} gp</li>
-            <li>Standard Fare: ${standardFareCost.toFixed(2)} gp</li>
-            <li>Steerage: ${steerageCost.toFixed(2)} gp</li>
+            <li>First Class: ${totalFirstClassCost.toFixed(2)} gp</li>
+            <li>Standard Fare: ${totalStandardFareCost.toFixed(2)} gp</li>
+            <li>Steerage: ${totalSteerageCost.toFixed(2)} gp</li>
+            <li>Cargo (per 100 lbs): ${totalCargoCost.toFixed(2)} gp</li>
         </ul>
-        <ul>
-            ${pathDetails.nodeDetails.map(detail => `
-                <li>${detail.from} to ${detail.to}: ${detail.travelTime} hours (${detail.distance} miles)</li>
-            `).join('')}
-        </ul>
+        <h2>By Leg</h2>
+        ${pathDetails.nodeDetails.map((detail, index) => `
+            <h3>${detail.from} to ${detail.to}:</h3>
+            <p>${detail.travelTime} hours (${detail.distance} miles)</p>
+            <p>Costs:</p>
+            <ul>
+                <li>First Class: ${detail.firstClassCost.toFixed(2)} gp</li>
+                <li>Standard Fare: ${detail.standardFareCost.toFixed(2)} gp</li>
+                <li>Steerage: ${detail.steerageCost.toFixed(2)} gp</li>
+                <li>Cargo (per 100 lbs): ${detail.cargoCost.toFixed(2)} gp</li>
+            </ul>
+        `).join('')}
     `;
 }
