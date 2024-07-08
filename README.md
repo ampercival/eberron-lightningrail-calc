@@ -1,12 +1,12 @@
 # Lightning Rail Route Calculator
 
-The Lightning Rail Route Calculator is a web application that helps users find the shortest path and travel time between cities on the Eberron lightning rail network. The app calculates the route based on travel time and displays the total travel time and distance, as well as the travel time and distance between each node.
+The Lightning Rail Route Calculator is a web application that helps users find the shortest path and travel time between cities on the Eberron lightning rail network. The app calculates the route based on travel time and displays the total travel time and distance, as well as the travel time and distance between each node. Additionally, it calculates travel costs for different classes.
 
 ## Features
 
 - Users can select a start city from the dropdown list.
 - The destination city dropdown is activated and populated based on the selected start city.
-- The app calculates and displays the shortest path, total travel time, and total distance.
+- The app calculates and displays the shortest path, total travel time, total distance, and travel costs.
 - Displays travel time and distance between each node.
 
 ## Getting Started

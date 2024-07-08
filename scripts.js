@@ -95,15 +95,26 @@ function findShortestPath() {
         const travelTime = graph[prevNode].find(([neighbor]) => neighbor === node)[1];
         const distance = travelTime * 30;
         details.totalDistance += distance;
+        details.totalTime += travelTime;
         details.nodeDetails.push({ from: prevNode, to: node, travelTime, distance });
         return details;
-    }, { totalDistance: 0, nodeDetails: [] });
+    }, { totalDistance: 0, totalTime: 0, nodeDetails: [] });
+
+    const firstClassCost = pathDetails.totalTime * 15;
+    const standardFareCost = pathDetails.totalTime * 6;
+    const steerageCost = pathDetails.totalTime * 0.6;
 
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = `
         <p>Shortest path: ${result.path.join(' -> ')}</p>
-        <p>Total time: ${result.time} hours</p>
+        <p>Total time: ${pathDetails.totalTime} hours</p>
         <p>Total distance: ${pathDetails.totalDistance} miles</p>
+        <p>Costs:</p>
+        <ul>
+            <li>First Class: ${firstClassCost.toFixed(2)} gp</li>
+            <li>Standard Fare: ${standardFareCost.toFixed(2)} gp</li>
+            <li>Steerage: ${steerageCost.toFixed(2)} gp</li>
+        </ul>
         <ul>
             ${pathDetails.nodeDetails.map(detail => `
                 <li>${detail.from} to ${detail.to}: ${detail.travelTime} hours (${detail.distance} miles)</li>
